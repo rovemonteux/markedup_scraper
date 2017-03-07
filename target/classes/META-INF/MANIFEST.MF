@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Built-By: rove
-Class-Path: lib/maven-invoker-2.1.jar lib/plexus-utils-3.0.8.jar lib/j
- ericho-html-3.4.jar lib/mariadb-java-client-1.5.8.jar lib/json-201608
- 10.jar
-Build-Jdk: 1.8.0_121
-Created-By: Maven Integration for Eclipse
-Main-Class: cf.monteux.scraper.ScraperCLI
-
