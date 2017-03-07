@@ -1,0 +1,24 @@
+{
+	"configuration": {
+		"project":"Test project",
+		"description": "A test project for development",
+		"template": [
+			{
+				"filename": "dn_1.html",
+				"url": "http://dn.pt/",
+				"throttling": 10
+			}, {
+				"filename": "dn_2.html",
+				"url": "https://dn.pt/",
+				"throttling": 0
+			}
+		],
+		"destination": [
+			{
+				"type": "console",
+				"name": "out"
+			}
+		],
+		"useragent": "lynx/0.1"
+	}
+}
