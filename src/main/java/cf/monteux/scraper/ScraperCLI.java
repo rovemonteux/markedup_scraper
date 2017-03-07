@@ -57,7 +57,8 @@ public class ScraperCLI {
 	public void process(String configurationFileName) {
 		try {
 			Configuration configuration = new Configuration(configurationFileName);
-			logger.info("Project: "+configuration.getProject());
+			logger.info("Started processing for project: "+configuration.getProject());
+			Scraper scraper = new Scraper(configuration);
 		} catch(FileNotFoundException fe) {
 			fe.printStackTrace();
 			usage();

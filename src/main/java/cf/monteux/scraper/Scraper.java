@@ -21,25 +21,83 @@
 
 package cf.monteux.scraper;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import cf.monteux.scraper.http.HTTPClient;
+import cf.monteux.scraper.io.FileIO;
+
 public class Scraper {
 	
+	public static final Logger logger;
+	
+	static {
+        logger = Logger.getLogger(ScraperCLI.class.getName());
+    }
+	
 	private Configuration configuration = null;
+	
+	private String template = "";
+	private String content = "";
+	private ArrayList<String> scraperTags = new ArrayList<String>();
 	
 	// syntax: {scraper::tagname}
 	// if tag has attributes, use the tag around the markup
 	// if tag has no attributes, look for a tag up in the tree with content or attribute, and then use it as map
 	// ignore href attributes
 	
-	public Scraper(Configuration configuration_) {
+	public Scraper(Configuration configuration_) throws FileNotFoundException {
 		this.setConfiguration(configuration_);
+		populate();
+	}
+	
+	public void populate() throws FileNotFoundException {
+		this.setTemplate(FileIO.read(this.getConfiguration().getFilenames().get(0)));
+		this.setContent(HTTPClient.request(this.getConfiguration().getUrls().get(0)));
+		compileTags();
 	}
 
+	public void compileTags() {
+		String[] contents = this.getTemplate().split("\\{scraper::");
+		for (String s: contents) {
+			String tag = this.getTemplate().substring(s.length(), this.getTemplate().indexOf("}",s.length())+1);
+			if (tag.contains("{scraper::")) {
+				logger.info(tag);
+			}
+		}
+	}
+	
 	public Configuration getConfiguration() {
 		return configuration;
 	}
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public ArrayList<String> getScraperTags() {
+		return scraperTags;
+	}
+
+	public void setScraperTags(ArrayList<String> scraperTags) {
+		this.scraperTags = scraperTags;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 	
 }
