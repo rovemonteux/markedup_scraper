@@ -33,10 +33,13 @@ public class Scraper {
 	public static final Logger logger;
 	
 	static {
-        logger = Logger.getLogger(ScraperCLI.class.getName());
+        logger = Logger.getLogger(Scraper.class.getName());
     }
 	
 	private Configuration configuration = null;
+	
+	public static String tagPrefix = "{scraper::";
+	public static String tagPostfix="}";
 	
 	private String template = "";
 	private String content = "";
@@ -59,10 +62,11 @@ public class Scraper {
 	}
 
 	public void compileTags() {
-		String[] contents = this.getTemplate().split("\\{scraper::");
+		String[] contents = this.getTemplate().split("\\"+tagPrefix);
 		for (String s: contents) {
 			String tag = this.getTemplate().substring(s.length(), this.getTemplate().indexOf("}",s.length())+1);
-			if (tag.contains("{scraper::")) {
+			if (tag.contains(tagPrefix)) {
+				
 				logger.info(tag);
 			}
 		}
