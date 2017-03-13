@@ -23,6 +23,7 @@ package cf.monteux.scraper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -51,14 +52,8 @@ public class ScraperCLI {
             }
         }
 		ScraperCLI scraperCLI = new ScraperCLI();
-		scraperCLI.process(args[0]);
-	}	
-	
-	public void process(String configurationFileName) {
 		try {
-			Configuration configuration = new Configuration(configurationFileName);
-			logger.info("Started processing for project: "+configuration.getProject());
-			Scraper scraper = new Scraper(configuration);
+			scraperCLI.process(args[0]);
 		} catch(FileNotFoundException fe) {
 			fe.printStackTrace();
 			usage();
@@ -66,8 +61,15 @@ public class ScraperCLI {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}	
+	
+	public void process(String configurationFileName) throws FileNotFoundException, UnsupportedEncodingException {
+			logger.info("Opening configuration file "+configurationFileName);
+			Configuration configuration = new Configuration(configurationFileName);
+			logger.info("Started processing for project: "+configuration.getProject());
+			Scraper scraper = new Scraper(configuration);
 	}
-	public void usage() {
+	public static void usage() {
 		logger.severe("Usage: ScraperCLI <configuration file name>");
 	}
 

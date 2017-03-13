@@ -57,17 +57,18 @@ public class Scraper {
 	
 	public void populate() throws FileNotFoundException {
 		this.setTemplate(FileIO.read(this.getConfiguration().getFilenames().get(0)));
-		this.setContent(HTTPClient.request(this.getConfiguration().getUrls().get(0)));
 		compileTags();
+		//this.setContent(HTTPClient.request(this.getConfiguration().getUrls().get(0)));
 	}
 
 	public void compileTags() {
 		String[] contents = this.getTemplate().split("\\"+tagPrefix);
 		for (String s: contents) {
-			String tag = this.getTemplate().substring(s.length(), this.getTemplate().indexOf("}",s.length())+1);
+			String tag = this.getTemplate().substring(s.length(), this.getTemplate().indexOf(tagPostfix,s.length())+1);
 			if (tag.contains(tagPrefix)) {
-				
-				logger.info(tag);
+				String tagContent = tag.replace(tagPrefix, "").replace(tagPostfix, "");
+				this.getScraperTags().add(tagContent);
+				logger.info("Scraper tag: "+tagContent);
 			}
 		}
 	}
