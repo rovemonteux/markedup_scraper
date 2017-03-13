@@ -23,10 +23,14 @@ package cf.monteux.scraper;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import cf.monteux.scraper.http.HTTPClient;
 import cf.monteux.scraper.io.FileIO;
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
 
 public class Scraper {
 	
@@ -44,32 +48,38 @@ public class Scraper {
 	private String template = "";
 	private String content = "";
 	private ArrayList<String> scraperTags = new ArrayList<String>();
+	private ArrayList<Element> scraperElements = new ArrayList<Element>();
 	
 	// syntax: {scraper::tagname}
 	// if tag has attributes, use the tag around the markup
 	// if tag has no attributes, look for a tag up in the tree with content or attribute, and then use it as map
 	// ignore href attributes
-	
+
 	public Scraper(Configuration configuration_) throws FileNotFoundException {
 		this.setConfiguration(configuration_);
 		populate();
 	}
 	
 	public void populate() throws FileNotFoundException {
-		this.setTemplate(FileIO.read(this.getConfiguration().getFilenames().get(0)));
 		compileTags();
 		//this.setContent(HTTPClient.request(this.getConfiguration().getUrls().get(0)));
 	}
 
-	public void compileTags() {
-		String[] contents = this.getTemplate().split("\\"+tagPrefix);
-		for (String s: contents) {
-			String tag = this.getTemplate().substring(s.length(), this.getTemplate().indexOf(tagPostfix,s.length())+1);
-			if (tag.contains(tagPrefix)) {
-				String tagContent = tag.replace(tagPrefix, "").replace(tagPostfix, "");
-				this.getScraperTags().add(tagContent);
-				logger.info("Scraper tag: "+tagContent);
+	public void compileTags() throws FileNotFoundException {
+		Source source = new Source(FileIO.read(this.getConfiguration().getFilenames().get(0)));
+		source.fullSequentialParse();
+		List<Element> elements = source.getAllElements();
+		for (Element element: elements) {
+			String elementContent = element.getContent().getTextExtractor().toString();
+			if (elementContent.contains("{scraper:") && element.getMaxDepthIndicator() < 2) {
+				logger.info("Element: "+element.toString());
+				this.getScraperElements().add(element);
+				String elementTag = elementContent.replace(tagPrefix, "").replace(tagPostfix, "");
+				logger.info("Element tag: "+elementTag);
+				this.getScraperTags().add(elementTag);
+				elementTag = null;
 			}
+			elementContent = null;
 		}
 	}
 	
@@ -103,6 +113,14 @@ public class Scraper {
 
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+	
+	public ArrayList<Element> getScraperElements() {
+		return scraperElements;
+	}
+
+	public void setScraperElements(ArrayList<Element> scraperElements) {
+		this.scraperElements = scraperElements;
 	}
 	
 }
