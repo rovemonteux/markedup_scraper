@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>cf.monteux.scraper</groupId>
-  <artifactId>Markedup_Scraper</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Markedup Scraper</name>
-  <description>Markedup Scraper, Java package for helping scraping data from websites and webservices.</description>
-  <build>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cf.monteux.scraper</groupId>
+    <artifactId>Markedup_Scraper</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Markedup Scraper</name>
+    <description>Markedup Scraper, Java package for helping scraping data from websites and webservices.</description>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -96,15 +96,15 @@
                     </execution>
                 </executions>
             </plugin>
-            </plugins>
-             <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource>
-    </resources>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
     <reporting>
         <plugins>
@@ -162,25 +162,38 @@
             <version>2.1</version>
         </dependency>
         <dependency>
-    		<groupId>net.htmlparser.jericho</groupId>
-    		<artifactId>jericho-html</artifactId>
-    		<version>3.4</version>
-		</dependency>
-		<dependency>
-    		<groupId>org.mariadb.jdbc</groupId>
-    		<artifactId>mariadb-java-client</artifactId>
-    		<version>1.5.8</version>
-		</dependency>
-		<dependency>
-    		<groupId>org.json</groupId>
-    		<artifactId>json</artifactId>
-    		<version>20160810</version>
-		</dependency>
+            <groupId>net.htmlparser.jericho</groupId>
+            <artifactId>jericho-html</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>1.5.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
     </dependencies>
     <organization>
         <name>Rove Monteux</name>
         <url>http://monteux.cf/</url>
     </organization>
+    <scm>
+        <url>https://github.com/rovemonteux/markedup_scraper</url>
+        <connection>scm:git:git://github.com/rovemonteux/markedup_scraper.git</connection>
+        <developerConnection>scm:git:git@github.com:rovemonteux/markedup_scraper.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <email>rmonteux@centrum.cz</email>
+            <name>Rove Monteux</name>
+            <url>https://github.com/rovemonteux</url>
+            <id>rovemonteux</id>
+        </developer>
+    </developers>
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd/MM/yyyy HH:mm:ss</maven.build.timestamp.format>
